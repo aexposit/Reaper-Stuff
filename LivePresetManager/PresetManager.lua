@@ -120,16 +120,10 @@ local function loop()
     local visible, open = ImGui.Begin(ctx, 'Live preset manager', true)
 
     if visible then
-        --------Inizio Sezione global----------------
-
-
-
         ImGui.Text(ctx, "Live Preset monitor")
         ImGui.Dummy(ctx, 0, 10)
-
         if ImGui.Button(ctx, 'RESCAN PROJECT DATA') then
             read_stored_presets()
-            cache_tracks()
         end
         ImGui.Dummy(ctx, 0, 10)
 
@@ -162,16 +156,6 @@ local function loop()
             ImGui.EndTable(ctx)
         end
 
-
-        ----------Fine Sezione Track monitor----------------
-        ---
-        ---
-        ---
-        ---
-        ---
-        ---
-        ---
-        -----------Inizio Sezione MIDI Mapping buttons----------------
         ImGui.Dummy(ctx, 0, 10)
         ImGui.Separator(ctx)
         ImGui.Dummy(ctx, 0, 10)
@@ -285,12 +269,7 @@ local function loop()
     end
 end
 
-function cache_tracks()
-    memory_commands_tbl = {}
-    for i = 1, reaper.CountTracks(0) do
-        table.insert(memory_commands_tbl, 0)
-    end
-end
+
 
 local function find_preset_name(trackNum, pcNum)
     for _, row in ipairs(parsed_data) do
@@ -335,8 +314,7 @@ reaper.gmem_attach("MyBandNS")
 sep = package.config:sub(1, 1)
 current_scene = ""
 memory_commands_tbl = {}
---tracksobj_tbl = {}
-cache_tracks()
+
 read_stored_presets()
 parsed_data = {}
 selected_rows = {}
