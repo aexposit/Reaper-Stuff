@@ -36,5 +36,8 @@ rcv_midi_value = midi_value; // Update GUI if event emitted by midi device
           rcv_midi_value = buf[2];
           gmem[gmem_idx_start + numero_traccia + 1] = rcv_midi_value; // set command (0-127) at index 1001 per track 1, at index 1002 per track 2 etc..
           midi_value = rcv_midi_value;
-        )
+        );
+
+        // pass-through
+        midisend_buf(0,buf,3); 
     )
