@@ -199,9 +199,10 @@ local function loop()
         -----------Inizio Sezione MIDI Mapping----------------
 
         if #parsed_data > 0 then
-            if ImGui.BeginTable(ctx, "Table", 4, ImGui.TableFlags_Borders, 800) then
+            if ImGui.BeginTable(ctx, "Table", 5, ImGui.TableFlags_Borders, 800) then
                 ImGui.TableSetupColumn(ctx, "", ImGui.TableColumnFlags_WidthFixed)
                 ImGui.TableSetupColumn(ctx, "   TrackNum   ", ImGui.TableColumnFlags_WidthFixed)
+                ImGui.TableSetupColumn(ctx, "   Track name   ", ImGui.TableColumnFlags_WidthFixed)
                 ImGui.TableSetupColumn(ctx, " MIDI value (0-127) ", ImGui.TableColumnFlags_WidthFixed)
                 ImGui.TableSetupColumn(ctx, " Nome (Select) ", ImGui.TableColumnFlags_WidthFixed, 600)
                 ImGui.TableHeadersRow(ctx)
@@ -227,6 +228,17 @@ local function loop()
 
                     ImGui.TableSetColumnIndex(ctx, 2)
                     ImGui.SetNextItemWidth(ctx, -1)
+                    local _curr_track = reaper.GetTrack(0,row.TrackNum)
+                    if _curr_track then
+                        local _, _name = reaper.GetTrackName(_curr_track)
+                        ImGui.Text(ctx, _name)
+                    else
+                        ImGui.Text(ctx, "N/A")
+                    end
+         
+
+                    ImGui.TableSetColumnIndex(ctx, 3)
+                    ImGui.SetNextItemWidth(ctx, -1)
 
                     local changed2, new_value2 = ImGui.InputInt(ctx, "##pc" .. i, row.PCNum)
                     if changed2 then
@@ -234,7 +246,7 @@ local function loop()
                     end
 
 
-                    ImGui.TableSetColumnIndex(ctx, 3)
+                    ImGui.TableSetColumnIndex(ctx, 4)
                     ImGui.SetNextItemWidth(ctx, -1)
 
                     -- Durante la visualizzazione:
