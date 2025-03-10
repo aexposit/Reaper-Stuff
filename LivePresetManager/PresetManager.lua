@@ -136,7 +136,7 @@ local function loop()
             for i = 1, reaper.CountTracks(0) do
                 local rtrack = reaper.GetTrack(0, i - 1)
                 local _, _name = reaper.GetTrackName(rtrack)
-                local _, _current_preset_name = reaper.TrackFX_GetPreset(rtrack, 0|0x1000000)
+                local _, _current_preset_name = reaper.TrackFX_GetPreset(rtrack, 0)
                 if _current_preset_name ~= "" then
                     ImGui.TableNextRow(ctx)
                     ImGui.TableSetColumnIndex(ctx, 0)
@@ -228,7 +228,7 @@ local function loop()
 
                     ImGui.TableSetColumnIndex(ctx, 2)
                     ImGui.SetNextItemWidth(ctx, -1)
-                    local _curr_track = reaper.GetTrack(0,row.TrackNum)
+                    local _curr_track = reaper.GetTrack(0,row.TrackNum - 1)
                     if _curr_track then
                         local _, _name = reaper.GetTrackName(_curr_track)
                         ImGui.Text(ctx, _name)
@@ -305,9 +305,9 @@ function manage_midi_events()
             if target_preset ~= nil then
                 --reaper.ShowConsoleMsg("Preset:" .. target_preset .. "\n")
                 --local _ = reaper.TrackFX_SetOffline(reaper.GetTrack(0, i - 1), 0, true) -- 0 è il primo effetto output FX / 0|0x1000000 è il primo insert FX
-                local _ = reaper.TrackFX_SetEnabled(reaper.GetTrack(0, i - 1), 0|0x1000000, false) -- 0 è il primo effetto output FX / 0|0x1000000 è il primo insert FX
-                local _ = reaper.TrackFX_SetPreset(reaper.GetTrack(0, i - 1), 0|0x1000000, target_preset)
-                local _ = reaper.TrackFX_SetEnabled(reaper.GetTrack(0, i - 1), 0|0x1000000, true)  -- 0 è il primo effetto output FX / 0|0x1000000 è il primo insert FX
+                local _ = reaper.TrackFX_SetEnabled(reaper.GetTrack(0, i - 1), 0, false) -- 0 è il primo effetto output FX / 0|0x1000000 è il primo insert FX
+                local _ = reaper.TrackFX_SetPreset(reaper.GetTrack(0, i - 1), 0, target_preset)
+                local _ = reaper.TrackFX_SetEnabled(reaper.GetTrack(0, i - 1), 0, true)  -- 0 è il primo effetto output FX / 0|0x1000000 è il primo insert FX
                 -- local _ = reaper.TrackFX_SetOffline(reaper.GetTrack(0, i - 1), 0, false) -- 0 è il primo effetto output FX / 0|0x1000000 è il primo insert FX
             end
             memory_commands_tbl[i] = current_midi_value -- aggiorno comandi = last = new
